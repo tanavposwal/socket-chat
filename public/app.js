@@ -14,11 +14,14 @@ let usrname;
 var socket = io();
 enter.addEventListener("click", () => {
     usrname = nameinp.value
-    socket.emit("user login", {
-        name: nameinp.value,
-    });
-    login.style.display = "none"
-    home.style.display = "flex"
+    if (usrname != "GOD" && usrname != "God" && usrname != "god" ) {
+        socket.emit("user login", {
+            name: nameinp.value,
+        });
+        login.style.display = "none"
+        home.style.display = "flex"
+        fetchUser()
+    }
 })
 
 function fetchUser() {
@@ -29,9 +32,17 @@ function fetchUser() {
         .then(data => {
             users.innerHTML = ""
             data.users.forEach(user => {
-                users.innerHTML += `
+                if (user.name == "$admin") {
+                    users.innerHTML += `
+                    <li class="font-semibold">"G O D",</li>
+                `
+                } else {
+                    users.innerHTML += `
                     <li class="font-semibold">${user.name},</li>
                 `
+                }
+
+                
             });
         })
         .catch(err => {
@@ -65,7 +76,7 @@ form.addEventListener("submit", (e) => {
 socket.on("chat message", (msg) => {
     if (msg.name == "$admin") {
         messages.innerHTML += `
-        <li class="list-group-item">${msg.msg}</li>
+        <li class="list-group-item"><p class="font-bold inline text-yellow-900">GOD</p>: ${msg.msg}</li>
       `;
     } else {
         messages.innerHTML += `
@@ -165,8 +176,14 @@ socket.on('clear canvas', (msg) => {
 // Function to draw cursor overlay
 function drawCursorOverlay(x, y, name) {
     let overlay = document.createElement("p")
-    overlay.classList.add("text-xs", "bg-black", "absolute", "mt-3", "ml-3", "py-1", "px-2", "w-fit", "text-white", "font-semibold", "rounded-md", "opacity-50")
-    overlay.innerText = name
+    overlay.classList.add("text-xs", "absolute", "mt-3", "ml-3", "py-1", "px-2", "w-fit", "font-semibold", "rounded-md")
+    if (name == "$admin") {
+        overlay.innerText = "GOD"
+        overlay.classList.add("bg-yellow-600", "text-black")
+    } else {
+        overlay.innerText = name
+        overlay.classList.add("bg-black", "text-white")
+    }
     overlay.style.left = x + 'px'
     overlay.style.top = y + 'px'
 

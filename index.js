@@ -22,16 +22,16 @@ io.on('connection', (socket) => {
     socket.on('user login', (data) => {
         users.push({ id: socket.id, name: data.name })
         socket.broadcast.emit('chat message', {
-            name: "$admin",
-            msg: data.name + " joined the chat."
+            name: data.name,
+            msg: "i joined the chat."
         });
     });
 
     socket.on('disconnect', () => {
         let index = users.findIndex(item => item.id == socket.id)
         socket.broadcast.emit('chat message', {
-            name: "$admin",
-            msg: users[index].name || "unknown" + " left the chat."
+            name: users[index].name,
+            msg: "i left the chat."
         });
         users.splice(index, 1)
     });
