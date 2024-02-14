@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <script src="tailwindcss.js"></script>
+  </head>
+  <body class="h-full">
+
+    <div id="login" class="h-screen w-full flex items-center justify-center">
+      <form class="border w-64 border-black rounded-lg p-3 flex flex-col items-center">
+        <p class="text-center text-sm mb-4">this is app is made by <a class="hover:underline font-semibold" href="http://github.com/tanavposwal/">@tanavposwal</a></p>
+        <input id="name" autocomplete="off" class="focus:ring-4 flex-1 border outline-none rounded-lg px-2 py-1" placeholder="Name" />
+        <button type="button" class="bg-blue-500 rounded-lg px-3 py-1 text-white focus:ring-4 mt-4" id="enter">Enter</button>
+      </form>
+    </div>
+
+    <div id="home" class="flex gap-3 mx-5" style="display: flex;">
+      
+      <div class="flex flex-col gap-3">
+        <div class="border border-black  rounded-lg py-1 px-3">
+          <p class="text-lg font-bold py-0">Users</p>
+          <ul id="users" class="flex overflow-x-auto space-x-2">
+            
+          </ul>
+          
+        </div>
+    
+        <div class="border border-black items-center justify-center rounded-lg w-[600px] h-[450px]">
+          <div class="px-3 py-1 border rounded-t-md border-black">
+            <button id="clearcmd" class="text-sm px-2 border rounded hover:border-black">clear canvas</button>
+          </div>
+          <div id="cv" class="relative">
+          <canvas id="canvas" width="600" height="450"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-black flex flex-col p-2 h-auto rounded-lg">
+        <ul id="messages" class="flex-1 overflow-y-auto">
+        </ul>
+        <hr class="border-gray-200 mx-3 my-2">
+        <form id="form" class="flex mx-1" action="">
+          <input id="input" autocomplete="off" class="mr-3 focus:ring-4 flex-1 border outline-none rounded-lg px-2 py-1" placeholder="type" />
+          <button type="button" class="bg-blue-500 rounded-lg px-3 py-1 text-white focus:ring-4" id="send">Send</button>
+        </form>
+      </div>
+    </div>
+    
+    
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./app.js"></script>
+</html>
