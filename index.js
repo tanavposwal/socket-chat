@@ -20,7 +20,9 @@ app.get('/users', (req, res) => {
 io.on('connection', (socket) => {
 
     socket.on('user login', (data) => {
-        users.push({ id: socket.id, name: data.name })
+        if (data.name !== "unknown") {
+            users.push({ id: socket.id, name: data.name })
+        }
         socket.broadcast.emit('chat message', {
             name: data.name,
             msg: "i joined the chat."

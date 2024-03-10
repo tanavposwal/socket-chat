@@ -12,6 +12,11 @@ var home = document.getElementById("home");
 let usrname;
 
 var socket = io();
+
+socket.emit("user login", {
+    name: "unknown",
+});
+
 enter.addEventListener("click", () => {
     usrname = nameinp.value
     if (usrname != "GOD" && usrname != "God" && usrname != "god" ) {
@@ -20,7 +25,6 @@ enter.addEventListener("click", () => {
         });
         login.style.display = "none"
         home.style.display = "flex"
-        fetchUser()
     }
 })
 
@@ -59,6 +63,7 @@ send.addEventListener("click", () => {
         });
         input.value = "";
     }
+    fetchUser()
 });
 
 form.addEventListener("submit", (e) => {
@@ -110,10 +115,13 @@ function draw(e) {
     const [x, y] = [e.offsetX, e.offsetY];
 
     // Draw line from last position to current position
+    ctx.lineWidth = 5;
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(x, y);
+    ctx.strokeStyle = 'black';
     ctx.stroke();
+    ctx.closePath();
 
     // Emit drawing event to server
     socket.emit('draw', { x1: lastX, y1: lastY, x2: x, y2: y });
@@ -176,7 +184,7 @@ socket.on('clear canvas', (msg) => {
 // Function to draw cursor overlay
 function drawCursorOverlay(x, y, name) {
     let overlay = document.createElement("p")
-    overlay.classList.add("text-xs", "absolute", "mt-3", "ml-3", "py-1", "px-2", "w-fit", "font-semibold", "rounded-md")
+    overlay.classList.add("text-xs", "absolute", "mt-3", "ml-3", "py-1", "px-2", "w-fit", "font-semibold", "rounded-md", "opacity-50")
     if (name == "$admin") {
         overlay.innerText = "GOD"
         overlay.classList.add("bg-yellow-600", "text-black")
@@ -188,7 +196,7 @@ function drawCursorOverlay(x, y, name) {
     overlay.style.top = y + 'px'
 
     let point = document.createElement("span")
-    point.classList.add("bg-red-500", "shadow", "shadow-red-600", "flex", "w-1", "h-1", "rounded-full", "absolute")
+    point.classList.add("bg-red-500", "shadow", "shadow-red-600", "flex", "w-1", "h-1", "rounded-full", "absolute", "opacity-50")
     point.innerText = ""
     point.style.left = x + 'px'
     point.style.top = y + 'px'
