@@ -93,6 +93,13 @@ socket.on("chat message", (msg) => {
 });
 
 const canvas = document.getElementById('canvas');
+var displayWidth = 600;
+var displayHeight = 450;
+var scale = 1;
+canvas.style.width = displayWidth + 'px';
+canvas.style.height = displayHeight + 'px';
+canvas.width = displayWidth * scale;
+canvas.height = displayHeight * scale;
 const ctx = canvas.getContext('2d');
 
 let drawing = false;
@@ -103,6 +110,10 @@ canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', stopDrawing);
 canvas.addEventListener('mouseout', stopDrawing);
+
+canvas.addEventListener('touchstart', startDrawing);
+canvas.addEventListener('touchmove', draw);
+canvas.addEventListener('touchend', stopDrawing);
 
 
 function startDrawing(e) {
@@ -116,12 +127,13 @@ function draw(e) {
 
     // Draw line from last position to current position
     ctx.lineWidth = 5;
+    ctx.strokeStyle = 'black';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(x, y);
-    ctx.strokeStyle = 'black';
     ctx.stroke();
-    ctx.closePath();
 
     // Emit drawing event to server
     socket.emit('draw', { x1: lastX, y1: lastY, x2: x, y2: y });
@@ -139,6 +151,10 @@ function stopDrawing() {
 
 // Listen for drawing events from other clients
 socket.on('draw', ({ x1, y1, x2, y2 }) => {
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'black';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);

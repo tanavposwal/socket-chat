@@ -2,50 +2,81 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <script src="tailwindcss.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="h-full">
 
-    <div id="login" class="h-screen w-full flex items-center justify-center">
-      <div class="border w-64 border-black rounded-lg p-3 flex flex-col items-center">
-        <p class="text-center text-sm mb-4">this is app is made by <a class="hover:underline font-semibold" href="http://github.com/tanavposwal/">@tanavposwal</a></p>
-        <input id="name" autocomplete="off" class="focus:ring-4 flex-1 border outline-none rounded-lg px-2 py-1" placeholder="Name" />
-        <button type="button" class="bg-blue-500 rounded-lg px-3 py-1 text-white focus:ring-4 mt-4" id="enter">Enter</button>
+    <div id="login" class="flex h-screen w-full items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+      <div class="flex w-96 flex-col items-center rounded-xl bg-white border border-gray-200 shadow-2xl p-8 px-12 gap-6 transition-all duration-300 hover:scale-105">
+        <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          Draw and Chat 2.0
+        </h1>
+        
+        <input 
+          id="name" 
+          autocomplete="off" 
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-gray-400"
+          placeholder="Enter your name"
+        />
+        
+        <button 
+          type="button" 
+          id="enter"
+          class="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2 text-lg font-semibold text-white shadow-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200"
+        >
+          Enter
+        </button>
       </div>
     </div>
 
-    <div id="home" class="gap-3 mx-5 mt-5" style="display: none;">
-      
-      <div class="flex flex-col gap-3">
-        <div class="border border-black  rounded-lg py-1 px-3">
-          <p class="text-lg font-bold py-0">Users</p>
-          <ul id="users" class="flex overflow-x-auto space-x-2">
-            
+    <div id="home" class="container mx-auto max-w-6xl p-6 space-y-6" style="display: none;">
+      <div class="flex flex-col gap-6">
+        <!-- Users Section -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+          <p class="text-lg font-semibold text-gray-800 mb-3">Users Online</p>
+          <ul id="users" class="flex overflow-x-auto gap-2 pb-2">
+            <!-- User items will be populated here -->
           </ul>
-          
         </div>
     
-        <div class="border border-black items-center justify-center rounded-lg w-[600px] h-[450px]">
-          <div class="px-3 py-1 border rounded-t-md border-black">
-            <button id="clearcmd" class="text-sm px-2 border rounded hover:border-black">clear canvas</button>
+        <!-- Canvas Section -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm w-[600px]">
+          <div class="flex items-center gap-2 p-3 border-b border-gray-100">
+            <button id="clearcmd" class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+              Clear Canvas
+            </button>
           </div>
-          <div id="cv" class="relative">
-          <canvas id="canvas" width="600" height="450"></canvas>
+          <div id="cv" class="relative bg-gray-50">
+            <canvas id="canvas" width="600" height="450" class="rounded-b-xl"></canvas>
           </div>
         </div>
       </div>
-
-      <div class="border border-black flex flex-col p-2 h-auto rounded-lg">
-        <ul id="messages" class="flex-1 overflow-y-auto">
+    
+      <!-- Chat Section -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 h-[400px] flex flex-col">
+        <ul id="messages" class="flex-1 overflow-y-auto space-y-3 mb-4">
+          <!-- Messages will be populated here -->
         </ul>
-        <hr class="border-gray-200 mx-3 my-2">
-        <form id="form" class="flex mx-1" action="">
-          <input id="input" autocomplete="off" class="mr-3 focus:ring-4 flex-1 border outline-none rounded-lg px-2 py-1" placeholder="type" />
-          <button type="button" class="bg-blue-500 rounded-lg px-3 py-1 text-white focus:ring-4" id="send">Send</button>
-        </form>
+        
+        <div class="border-t border-gray-100 pt-4">
+          <form id="form" class="flex gap-3" action="">
+            <input 
+              id="input" 
+              autocomplete="off" 
+              class="flex-1 rounded-lg border border-gray-200 px-4 py-2.5 text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none"
+              placeholder="Type your message..."
+            />
+            <button 
+              type="button" 
+              id="send" 
+              class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-200 shadow-sm"
+            >
+              Send
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-    
     
   </body>
   <script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4" crossorigin="anonymous"></script>
